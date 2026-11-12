@@ -10,6 +10,12 @@ Phone Screen Guard uses the webcam to detect a phone and, in selected modes, cha
 - **Mode 2** also blanks when the webcam sends a dark or uniform image or stops providing frames.
 - **Mode 3** adds a check for extremely blurred, low-detail images that can occur when a palm or object is held close to the lens.
 
+## See it in action
+
+![Illustration of a normal Windows desktop and a black overlay after the webcam detects a phone](phone-screen-guard-demo.png)
+
+Bring a phone into the webcam's field of view. Once detected, Phone Screen Guard covers the desktop with a black overlay. Move the phone out of view and the display returns after about two seconds of clear conditions.
+
 ## Choose an installer
 
 | Package | Trigger |
