@@ -1,0 +1,39 @@
+PHONE SCREEN GUARD
+MODE 1 - PHONE ONLY
+
+INSTALL
+1. On a Windows 10/11 x64 laptop, install Python 3.12 x64 once if needed.
+   Use https://www.python.org/downloads/windows/ or Microsoft Store.
+   For the python.org installer, tick "Add python.exe to PATH".
+   Open a fresh Command Prompt and check python --version or py -3.12 --version.
+2. Extract this ZIP. If switching modes, exit the old app from the tray.
+   Keep a copy of your old guard.pyw if you customized CAMERA_INDEX.
+3. Double-click Install.cmd as the intended Windows user. Keep internet
+   connected for the initial package and model downloads.
+4. After "Setup complete", open the tray arrow near the clock. Hover over
+   the computer icon to confirm Mode 1 and Monitoring.
+5. Hold a mobile phone in the webcam view. Shutter closure and loss of camera feed do not trigger blanking.
+6. Sign out and sign in to confirm automatic launch. It runs in the
+   background and works offline after setup.
+
+HOW TO USE
+- The black overlay clears after usable feed returns and phone detection
+  clears, with about a two-second recovery period.
+- Ctrl+Shift+F12 pauses/resumes monitoring even while the screen is black.
+- Install only one mode per Windows account. Installing another mode
+  replaces the previous one. Each account has its own install.
+- Modes 2 and 3 can blank on a low-light feed or camera interruption.
+  Shutter behavior depends on the webcam. Partially covered lenses and
+  sharp textures can be missed in Mode 3.
+- To remove it, exit from the tray and run Uninstall.cmd from this ZIP.
+
+IF THE TRAY ICON IS MISSING
+Open CMD as the same Windows user and run:
+"%USERPROFILE%\PhoneScreenGuard\venv\Scripts\python.exe" "%USERPROFILE%\PhoneScreenGuard\guard.pyw"
+For camera/detector errors check %USERPROFILE%\PhoneScreenGuard\guard.log.
+Review Ultralytics model/software licensing before company-wide rollout.
+
+INPUT BLOCKING PREVIEW
+Test keyboard and mouse during the black overlay and again after it clears.
+Test Ctrl+Shift+F12 to pause while the overlay is active. See repository README
+for troubleshooting and recovery. If input blocking is unavailable, inspect guard.log.

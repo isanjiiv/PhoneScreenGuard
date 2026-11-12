@@ -2,9 +2,11 @@
 
 A Windows desktop app that displays a black overlay when its webcam detects the selected trigger. Webcam frames are processed locally. The app starts at sign-in for the Windows account that installs it.
 
+> **Preview build.** Keyboard and mouse blocking requires a live Windows test before broader rollout. Test input restoration and the emergency shortcut on your own laptop first.
+
 ## What the app does
 
-Phone Screen Guard uses the webcam to detect a phone and, in selected modes, changes in the webcam feed. It displays a black overlay on the laptop display and connected monitors. It processes webcam frames on the computer. The overlay does not lock the Windows session.
+Phone Screen Guard uses the webcam to detect a phone and, in selected modes, changes in the webcam feed. It displays a black overlay on the laptop display and connected monitors. It processes webcam frames on the computer. While the overlay is active, the app attempts to block ordinary keyboard and mouse input on the signed-in Windows desktop. It releases both when the overlay clears. The overlay does not lock the Windows session.
 
 - **Mode 1** blanks the screen when the phone detector identifies a mobile phone in the webcam view.
 - **Mode 2** also blanks when the webcam sends a dark or uniform image or stops providing frames.
@@ -12,7 +14,7 @@ Phone Screen Guard uses the webcam to detect a phone and, in selected modes, cha
 
 ## See it in action
 
-![Illustration of a normal Windows desktop and a black overlay after the webcam detects a phone](phone-screen-guard-demo.png)
+![Illustration of a normal Windows desktop and a black overlay after the webcam detects a phone](assets/phone-screen-guard-demo.png)
 
 Bring a phone into the webcam's field of view. Once detected, Phone Screen Guard covers the desktop with a black overlay. Move the phone out of view and the display returns after about two seconds of clear conditions.
 
@@ -20,9 +22,9 @@ Bring a phone into the webcam's field of view. Once detected, Phone Screen Guard
 
 | Package | Trigger |
 | --- | --- |
-| [PhoneScreenGuard-01-Phone-Only.zip](PhoneScreenGuard-01-Phone-Only.zip) | Phone detection |
-| [PhoneScreenGuard-02-Phone-and-Shutter.zip](PhoneScreenGuard-02-Phone-and-Shutter.zip) | Phone detection and shutter-like camera feed changes |
-| [PhoneScreenGuard-03-Phone-Shutter-and-Cover.zip](PhoneScreenGuard-03-Phone-Shutter-and-Cover.zip) | Phone detection, shutter-like changes, and low-detail lens covers |
+| [PhoneScreenGuard-01-Phone-Only.zip](downloads/PhoneScreenGuard-01-Phone-Only.zip) | Phone detection |
+| [PhoneScreenGuard-02-Phone-and-Shutter.zip](downloads/PhoneScreenGuard-02-Phone-and-Shutter.zip) | Phone detection and shutter-like camera feed changes |
+| [PhoneScreenGuard-03-Phone-Shutter-and-Cover.zip](downloads/PhoneScreenGuard-03-Phone-Shutter-and-Cover.zip) | Phone detection, shutter-like changes, and low-detail lens covers |
 
 ## 1. Check Python on Windows
 
@@ -83,7 +85,15 @@ If your installation uses the Python Launcher, the virtual-environment command i
 3. Remove the phone or uncover the lens. The screen should return after about two seconds of clear conditions.
 4. Sign out and sign in again to check that the app starts automatically. It works offline after the first successful setup.
 
-Press **Ctrl + Shift + F12** to pause or resume monitoring, including when the overlay is visible.
+### Verify keyboard and mouse blocking
+
+1. Open Notepad and save any work in other apps.
+2. Trigger the overlay using the phone or the camera trigger supported by your mode.
+3. Try typing a few letters and moving or clicking the mouse.
+4. Clear the trigger. Check that the desktop returns, the test letters were not inserted, and typing and mouse clicks work again.
+5. Trigger the overlay again and press **Ctrl + Shift + F12** to pause monitoring. Once the overlay clears, use the same shortcut to resume.
+
+If either Windows input hook fails to install, both inputs remain usable and the overlay can still appear. The tray tooltip reports **Input blocking unavailable** and `guard.log` records the error. If the desktop is stuck and the pause shortcut does not respond, use **Ctrl + Alt + Delete** to reach Windows' security screen. Sign out only if needed because it can close unsaved work.
 
 ### Expected behavior by mode
 
@@ -147,6 +157,13 @@ Modes 2 and 3 use the webcam feed to infer shutter closure. A dark, uniform or u
 3. Run its `Install.cmd` under the same Windows account.
 4. Hover over the tray icon and verify the new mode number.
 
+## Update an existing installation
+
+1. Exit Phone Screen Guard from the system tray.
+2. Download and extract the updated ZIP for the desired mode.
+3. If you previously edited `CAMERA_INDEX` in `%USERPROFILE%\PhoneScreenGuard\guard.pyw`, back up that file before setup and carry the setting forward.
+4. Run the new `Install.cmd` under the same Windows account. Confirm the tray status and repeat the input and recovery tests.
+
 ## Uninstall
 
 Exit Phone Screen Guard from the system tray. Open CMD in the extracted installer folder as described above and run:
@@ -158,3 +175,16 @@ Uninstall.cmd
 The script removes the app folder and startup entry for the current user.
 
 Review the dependency and model terms for your intended use or redistribution. [Ultralytics licensing](https://www.ultralytics.com/license)
+
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| `downloads/` | One Windows installer ZIP per mode |
+| `src/mode-1/` | Phone-only source and install scripts |
+| `src/mode-2/` | Phone and shutter source and install scripts |
+| `src/mode-3/` | Phone, shutter and lens cover source and install scripts |
+| `assets/` | README demo illustration |
+
+Each installer contains the same files as its corresponding source folder. End users can download one installer ZIP. To inspect or run setup from source, clone or download the repository, open the desired `src/mode-N` folder, and run its `Install.cmd`.
